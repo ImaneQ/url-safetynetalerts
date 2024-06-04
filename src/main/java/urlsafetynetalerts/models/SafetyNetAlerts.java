@@ -3,15 +3,15 @@ package urlsafetynetalerts.models;
 import java.util.*;
 
 public class SafetyNetAlerts {
-    static List<Persons> persons;
+    static List<Person> people;
     static List<Firestations> firestations;
     static List<MedicalRecords> medicalrecords;
-    public static List<Persons> getPersons() {
-        return persons;
+    public static List<Person> getPersons() {
+        return people;
     }
 
-    public void setPersons(List<Persons> persons) {
-        SafetyNetAlerts.persons = persons;
+    public void setPersons(List<Person> people) {
+        SafetyNetAlerts.people = people;
     }
 
     public static List<Firestations> getFirestations() {
@@ -33,7 +33,7 @@ public class SafetyNetAlerts {
     @Override
     public String toString() {
         return "SafetyNetAlerts{" +
-                "persons=" + persons +
+                "persons=" + people +
                 ", firestations=" + firestations +
                 ", medicalrecords=" + medicalrecords +
                 '}';

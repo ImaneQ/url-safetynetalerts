@@ -1,8 +1,16 @@
 package urlsafetynetalerts.models;
 
+import java.util.*;
+
 public class Firestations {
     public String address;
     public String station;
+
+    public static List<Firestations> firestations;
+    public static List<Firestations> getFirestations() {
+        return firestations;
+    }
+
 
     public String getAddress() {
         return address;
@@ -27,4 +35,5 @@ public class Firestations {
                 ", station='" + station + '\'' +
                 '}';
     }
+
 }

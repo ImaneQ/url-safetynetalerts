@@ -4,8 +4,6 @@ import urlsafetynetalerts.models.*;
 import urlsafetynetalerts.utils.*;
 
 import java.io.*;
-import java.time.*;
-import java.time.format.*;
 import java.util.*;
 
 public class ListingFromStationNumberDTO {
@@ -37,6 +35,10 @@ De plus, elle doit fournir un décompte du nombre d'adultes et du nombre d'enfa
     public String address;
     public String phone;
     public String station;
+
+    public ListingFromStationNumberDTO() {
+
+    }
 
     public String getLastName() {
         return lastName;
@@ -94,7 +96,7 @@ De plus, elle doit fournir un décompte du nombre d'adultes et du nombre d'enfa
         this.station = station;
     }
 
-    public Map<String, String> getPersonsStation() {
+    public static Map<String, String> getPersonsStation() {
         return personsStation;
     }
 
@@ -104,12 +106,10 @@ De plus, elle doit fournir un décompte du nombre d'adultes et du nombre d'enfa
 
     JsonUtils jsonUtils = new JsonUtils();
 
-    public ListOfPersonsDTO() throws IOException {
-    }
 
-    Map<String, String> personsStation = new HashMap<String, String>();
+    static Map<String, String> personsStation = new HashMap<String, String>();
 
-    public static List<Map<String, String>> displayPersonsByStation(List<Firestations> firestations, List<Persons> persons, List<MedicalRecords> medicalRecords, String station) throws IOException {
+    public static List<Map<String, String>> displayPersonsByStation(List<Firestations> firestations, List<Person> people, List<MedicalRecords> medicalRecords, String station) throws IOException {
         List<Map<String, String>> personsStation = new ArrayList<>();
 
         for (Firestations f : firestations) {
@@ -117,7 +117,7 @@ De plus, elle doit fournir un décompte du nombre d'adultes et du nombre d'enfa
             String addressFirestation = f.getAddress();
             String numberOfStation = f.getStation();
 
-            for (Persons p : persons) {
+            for (Person p : people) {
 
                 String personsLivingAdress = p.getAddress();
 
@@ -141,24 +141,117 @@ De plus, elle doit fournir un décompte du nombre d'adultes et du nombre d'enfa
         return personsStation;
     }
 
-    public static int calculateAge(String birthDateString) throws DateTimeParseException {
-        // Définir le format de la date
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    public static void getAdultsAndChildrenCountWithBirthdateInMedicalRecords(Map<String, String> personsStation, List<Firestations> firestations, List<Person> people, List<MedicalRecords> medicalRecords, String station) {
+        Map<String, String> personsStation = getPersonsStation();
 
-        // Convertir la chaîne en LocalDate
-        LocalDate birthDate = LocalDate.parse(birthDateString, formatter);
+        int adultsInt = 0;
+        int childrenInt = 0;
+        int age = 0;
+        String adults = adultsInt + "";
+        String children = childrenInt + "";
 
-        // Obtenir la date actuelle
-        LocalDate currentDate = LocalDate.now();
+        for (MedicalRecords m : medicalRecords) {
 
-        // Calculer la période entre la date de naissance et la date actuelle
-        Period period = Period.between(birthDate, currentDate);
+            if (Objects.equals(people., m.getFirstName()) && Objects.equals(p.getLastName(), m.getLastName())) {
+                age = calculateAge(m.getBirthdate());
+                System.out.println("age de chaque personne :" + age);
+                if (age > 18) {
+                    adultsInt++;
+                    System.out.println(" age adulte" + age);
 
-        // Retourner l'âge en années
-        return period.getYears();
+                    System.out.println("+ 1 adulte" + adultsInt);
+
+                } else {
+                    childrenInt++;
+                    System.out.println(" age enfant" + age);
+
+                    System.out.println("+ 1 enfant" + childrenInt);
+
+                }
+                personsStation.put("Number of Adults", adults);
+                personsStation.put("Number of Children", children);
+            }
+            personsStation.put("Number of Adults", adults);
+            personsStation.put("Number of Children", children);
+        }
+
     }
+
+    // --------------------------------
+
+    public static
+
+    ListingFromStationNumberDTO listing = new ListingFromStationNumberDTO();
+
+    List<Firestations> firestations = Firestations.getFirestations();
+
+    List<String> adresses = new ArrayList<>();
+
+
+ for(
+    Firestations firestation:firestations)
+
+    {
+
+
+        if (firestation.getStation() == stationNumber) {
+
+
+            adresses.add(firestation.getAddress());
+
+        }
+
+
+    }
+
+
+    List<PersonForListingFromStationNumberDTO> personsDTO = new ArrayList<>();
+
+
+    List<Person> personList = PersonDao.getPersonDao();
+
+
+ for(
+    Person person :personList)
+
+    {
+
+
+        for (String address : adresses) {
+
+
+            if (person.getAddress().equals(address)) {
+
+
+                PersonForListingFromStationNumberDTO pdto = new PersonForListingFromStationNumberDTO();
+
+
+                pdto.setLastname(person.getLastName());
+
+
+                pdto.setName(person.getFirstName());
+
+
+                personsDTO.add(pdto);
+
+
+            }
+
+
+        }
+
+
+    }
+ 
+ listing.setPersons(personsDTO);
+
+ return ResponseEntity.ok().
+
+    body(listing);
+
 }
-/*    int adultsInt = 0;
+ // --------------------------------
+    /*    int adultsInt = 0;
                     int childrenInt = 0;
                     int age = 0;
                     String adults = adultsInt + "";
@@ -190,20 +283,4 @@ De plus, elle doit fournir un décompte du nombre d'adultes et du nombre d'enfa
                     }
 */
 
-    /* for (MedicalRecords m : medicalRecords) {
-
-     if (Objects.equals(p.getFirstName(), m.getFirstName()) && Objects.equals(p.getLastName(), m.getLastName())) {
-     age = calculateAge(m.getBirthdate());
-     System.out.println("age de chaque personne :" + age);
-
-     if (age > 18) {
-     adultsInt++;
-     System.out.println(" age adulte" + age);
-
-     System.out.println("+ 1 adulte" + adultsInt);
-
-     } else {
-     childrenInt++;
-     System.out.println(" age enfant" + age);
-
-     Syst/*
+    /* for (

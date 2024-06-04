@@ -20,7 +20,7 @@ public class JsonUtils {
         return safetyNetAlerts;
     }
 
-    public List<Persons> getPersonsFromSafetyNetAlerts() throws IOException {
+    public List<Person> getPersonsFromSafetyNetAlerts() throws IOException {
 
         return SafetyNetAlerts.getPersons();
     }

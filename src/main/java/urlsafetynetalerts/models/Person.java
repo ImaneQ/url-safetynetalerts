@@ -1,6 +1,6 @@
 package urlsafetynetalerts.models;
 
-public class Persons {
+public class Person {
     public String firstName;
     public String lastName;
     public String address;
